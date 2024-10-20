@@ -40,7 +40,8 @@ Mauricio Moreno, PhD
 ::::::
 
 ![](images/florian-klauer-mk7D-4UCfmg-unsplash.jpg){.image-left}
-# Quarto
+
+
 
 ## Introducción {.smaller}
 
