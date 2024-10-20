@@ -1,0 +1,708 @@
+---
+logo: images/icon1_nb.png
+lang: es
+filters:
+  - timer
+format: 
+  letterbox-revealjs:
+    theme: custom.scss
+    progress: false
+    menu: true
+    width: 1400
+    height: 720
+    slide-number: true
+    preview-links: auto
+    touch: true
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 4
+      buttons: false
+    revealjs-plugins:
+      - pointer
+      
+callout-appearance: simple
+---
+
+## {}
+
+:::::: columns
+::: {.column width="37.5%"}
+![](images/icon1_nb.png){style="margin-left:-50px"}
+:::
+
+:::: {.column width="60%"}
+::: {.title data-id="title"}
+Módulo 8: Reportes con Quarto
+:::
+
+Mauricio Moreno, PhD
+::::
+::::::
+
+![](images/florian-klauer-mk7D-4UCfmg-unsplash.jpg){.image-left}
+# Quarto
+
+## Introducción {.smaller}
+
+::: incremental
+-   R tiene la capacidad de crear reportes en distintos formatos.
+
+-   Esta funcionalidad en el pasado se daba gracias al paquete `rmarkdown` (creado por los mismos desarrolladores de RStudio), que es una adaptación del lenguaje [Markdown](https://en.wikipedia.org/wiki/Markdown){target="_blank"}. Sin embargo, `rmarkdown` posee ciertas desventajas:
+
+    -   Es exclusivo de lenguaje R
+
+    -   Necesita de otros paquetes para crear distintos tipos de documentos (`{blogdown}` para sitios web, `{bookdown}` para libros o `revealjs` para crear presentaciones).
+
+    -   El hacer uso de extensiones es complejo.
+
+-   En 2022, el grupo de desarrolladores de Posit (RStudio), lanzó Quarto como la siguiente generación de `rmarkdown`. Entre sus ventajas cuenta:
+
+    -   Es multi-lenguaje. Al momento tiene compatibilidad con Python, Julia, Observable y por supuesto R.
+
+    -   Opciones de renderizado centralizadas (no se requiere ya de distintos paquetes para crear sitios web, libros o presentaciones).
+
+    -   Las extensiones son fácilmente instaladas (ejemplo: puntero láser en presentaciones).
+:::
+
+## ¿Qué es Quarto? {.smaller}
+
+
+-   Quarto es un sistema de publicación científica de licencia abierta construído en [Pandoc](https://pandoc.org/){target="_blank"}
+
+-   Fue nombrado de esta manera por la intención de sus creadores de darle un nombre representativo: Quarto es el formato de un panfleto o libro producido de hojas impresas que contienen 8 páginas de texto (4 páginas por carilla). Se cree que el primer libro europeo impreso fue un Quarto llamado el [Sibyllenbuch](https://en.wikipedia.org/wiki/Sibyllenbuch_fragment){target="_blank"}, atribuido a Johannes Gutenberg entre 1452 y 1453.
+
+
+
+![Ejemplo de un Quarto: Fragmento de Hamlet, impreso durante la vida de Shakespeare](images/quarto.jpg){fig-align="center" width=15%}
+
+## ¿Qué es Quarto? {.smaller visibility="uncounted"}
+
+::: incremental
+-   Con Quarto podemos producir documentos en varios formatos, pero debemos tener en cuenta algunos pre-requisitos:
+
+    -   html (no necesita pre-requerisitos)
+
+    -   pdf (necesita $\LaTeX$)
+
+    -   Word (necesita Microsoft Office o LibreOffice)
+
+    -   Power Point (necesita Microsoft Office o LibreOffice)
+
+    -   Shiny apps (necesita el paquete `shiny` de R)
+
+-   Otra funcionalidad interesante de Quarto (y `rmarkdown` también), es el poder renderizar ecuaciones:
+
+    -   Cuando creamos documentos con fórmulas matemáticas, Quarto usa un módulo llamado "Latexmk" que las renderiza de manera similar como lo haría $\LaTeX$.
+:::
+
+
+## ¿Qué es $\LaTeX$? {.smaller}
+
+::: columns
+::: {.column width="60%"}
+::: incremental
+-   $\TeX$ es un sistema de edición de fórmulas creado por el matemático [Donald Knuth](https://en.wikipedia.org/wiki/Donald_Knuth){target="blank_"} en 1978.
+
+-   Posteriormente en 1984, el matemático [Leslie Lamport](https://en.wikipedia.org/wiki/Leslie_Lamport){target="blank_"} creó $\LaTeX$, que es un software de edición que se basa en $\TeX$.
+
+-   Tanto $\TeX$ como $\LaTeX$, nacieron de la necesidad de contar con un editor de texto capaz de renderizar ecuaciones matemáticas.
+
+-   Bastante popular en ingenierías, física y matemáticas.
+
+-   Independientemente de que creemos documentos en Word o pdf con fórmulas, estas necesitan estar en lenguaje $\TeX$ para su renderización.
+
+-   Si creamos documentos en pdf, **es indispensable** instalar alguna versión de $\LaTeX$, como ya veremos en breve.
+:::
+:::
+
+::: {.column width="40%"}
+![](images/equation.png){fig-align="center"}
+:::
+:::
+
+# Básicos de Quarto
+
+## Instalación de Quarto
+
+::: incremental
+-   Para instalar la última versión disponible de Quarto ingresa a [este enlace](https://quarto.org/docs/download/){target="_blank"} y descarga el instalador de acuerdo a tu sistema operativo.
+
+-   Sigue las intrucciones sin cambiar los defaults e instala Quarto.
+
+-   Para el correcto funcionamiento de Quarto, es necesario que cuentes con los paquete `{knitr}` y `{rmarkdown}`.
+
+:::
+
+## Instalación de $\LaTeX$
+
+::: incremental
+-   Existen varias opciones para contar con $\LaTeX$ (MiKTeX, TeX Live por ejemplo). Sin embargo, los autores de Quarto recomiendan usar TinyTeX.
+
+-   Para instalar TinyTex, lo más simple es hacerlo mediante el terminal de R:
+:::
+
+. . .
+
+```{r echo=T, eval=F, error=T}
+quarto install tinytex
+```
+
+. . .
+
+![](images/tiny_2.png){fig-align="center"}
+
+## Preparando nuestro ambiente de trabajo {.smaller}
+
+::: columns
+::: {.column width="40%"}
+![](images/paso_1.png){fig-align="center"}
+:::
+
+::: {.column width="60%"}
+1)  Vamos a "File" (Archivo, dependiendo de si instalaste R con GUI y mensajes traducidos).
+
+2)  Escogemos la opción "New Project..." (Proyecto Nuevo...)
+:::
+:::
+
+## Preparando nuestro ambiente de trabajo {.smaller visibility="uncounted"}
+
+::: columns
+::: {.column width="40%"}
+![](images/paso_4.png){fig-align="center"}
+:::
+
+::: {.column width="60%"}
+1)  Vamos a "File" (Archivo, dependiendo de si instalaste R con GUI y mensajes traducidos).
+
+2)  Escogemos la opción "New Project..." (Proyecto Nuevo...).
+
+3)  RStudio nos dará a escoger entre distintos tipos de proyectos, escogeremos "Quarto Project" (Proyecto de Quarto).
+:::
+:::
+
+## Preparando nuestro ambiente de trabajo {.smaller visibility="uncounted"}
+
+::: columns
+::: {.column width="40%"}
+![](images/paso_2.png){fig-align="center"}
+:::
+
+::: {.column width="60%"}
+1)  Vamos a "File" (Archivo, dependiendo de si instalaste R con GUI y mensajes traducidos).
+
+2)  Escogemos la opción "New Project..." (Proyecto Nuevo...).
+
+3)  RStudio nos dará a escoger entre distintos tipos de proyectos, escogeremos "Quarto Project" (Proyecto de Quarto).
+
+4)  Luego, escogeremos de entre tres opciones la llamada "New Directory" (Nuevo Directorio).
+:::
+:::
+
+## Preparando nuestro ambiente de trabajo {.smaller visibility="uncounted"}
+
+::: columns
+::: {.column width="40%"}
+![](images/paso_3.png){fig-align="center"}
+:::
+
+::: {.column width="60%"}
+1)  Vamos a "File" (Archivo, dependiendo de si instalaste R con GUI y mensajes traducidos).
+
+2)  Escogemos la opción "New Project..." (Proyecto Nuevo...).
+
+3)  RStudio nos dará a escoger entre distintos tipos de proyectos, escogeremos "Quarto Project" (Proyecto de Quarto).
+
+4)  Luego, escogeremos de entre tres opciones la llamada "New Directory" (Nuevo Directorio).
+
+5)  En esta ventana, RStudio nos preguntará el nombre del nuevo directorio que queremos crear para nuestro proyecto y la ubicación del mismo. Dejamos los otros campos tal cual están en el visor. Damos entonces el click en "Create Project" (Crear Proyecto).
+:::
+:::
+
+## Preparando nuestro ambiente de trabajo {.smaller visibility="uncounted"}
+
+Una vez que hallamos seguido los pasos, RStudio habrá creado un script de template además de otros archivos dentro del directorio de trabajo que hayamos especificado.
+
+![](images/paso_5.png){fig-align="center"}
+
+## ¿Todo funciona bien? {.smaller}
+
+::: incremental
+-   En este punto, comprobaremos si todos los pasos que hemos seguido en la instalación fueron correctos.
+
+-   Basta con presionar el botón "Render" en nuestro script. Esta acción le ordena a RStudio a renderizar el template que obtuvimos después de la creación del proyecto.
+
+-   Como resultado, RStudio abrirá una ventana del navegador de internet predeterminado de tu ordenador para mostrar el documento renderizado (por default, Quarto genera documentos de extensión html).
+:::
+
+. . .
+
+![](images/paso_6.png){fig-align="center"}
+
+
+
+## Partes básicas de un documento de Quarto {.smaller}
+
+::: incremental
+-   Nota que la extensión del documento de Quarto es "qmd".
+
+-   En el código básico generamos al crear el proyecto, podemos reconocer fácilmente tres secciones de código:
+
+    -   **Encabezado**: delimitado por `---`, contiene instrucciones en formato YAML
+
+    -   **Fragmentos (chunks) de código R**: delimitados con ```` ``` ````
+
+    -   Texto llano precedido por un encabezado delimitado por `##`
+
+-   Esta es la estructura básica de un código fuente en un documento de Quarto.
+
+-   Tenemos entonces, dos opciones para trabajar en Quarto:
+
+    -   Trabajar directamente en el código fuente.
+
+    -   Trabajar con el editor Visual de RStudio sobre documentos de Quarto.
+
+-   Esta última opción es la recomendada para principiantes ya que es más intuitiva por su parecido con software de edición de texto (Word).
+:::
+
+## Partes básicas de un documento de Quarto {.smaller visibility="uncounted"}
+
+Para ello, copia el siguiente ejemplo de los "tamaños de diamante" del libro ["R for Data Science"](https://r4ds.hadley.nz/quarto.html#quarto-basics){target="blank_"} de Hadley Wickham y cópialo sobre el archivo que generamos:
+
+```{r echo = FALSE, comment = ""}
+cat(readr::read_file("diamond-sizes.qmd"))
+```
+
+## Tipos de documentos {.smaller}
+
+
+
+-   Como ya lo hemos notado, en el encabezado del ejemplo anterior definimos al mismo tiempo 3 tipos de documentos a renderizar (html, pdf, docx).
+
+```{r echo = TRUE, eval = FALSE, comment = ""}
+---
+title: "Diamond sizes"
+date: 2022-09-12
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: report
+  docx: default
+---
+```
+
+
+::: incremental
+
+-   El encabezado (e intrucciones YAML en general), son sensitivas a la indentación, y las opciones de sus comandos tienen que estar debidamente indentadas.
+
+-   La manera más sencilla es usar el comando `format:` seguido del tipo de documento que deseemos: `pdf`, `html`, `docx`, `pptx`, `revealjs`.
+
+:::
+
+## Nombrando fragmentos de código
+
+::: incremental
+-   Las partes de código pueden ser nombradas
+:::
+
+. . .
+
+```{r}
+#| echo: fenced
+#| label: simple-addition
+
+1 + 1
+```
+
+. . .
+
+-   Esto puede ser útil ya que nos permite navegar directamente hacia fragmentos de código específicos.
+
+## Opciones en los fragmentos de Código {.smaller}
+
+::: incremental
+
+-   `eval: false` cuando no queremos que al renderizar se ejecute el código.
+
+-   `include: false` corre el código, pero no lo muestra en el documento.
+
+-   `echo: false` evalua el código, y sus resultados son renderizados (ejemplo: gráficos). Pero, el código no forma parte del documento final.
+
+-   `message: false` o `warning: false` evita que mensajes o advertencias de correr el código sean parte del documento.
+
+-   `results: hide` oculta resultads; `fig-show: hide` oculta figuras. Estas opciones son más útiles en creación de documentos html.
+
+-   `error: true` permite el terminar el renderizado del documento así se encuentren errores en el código. 
+
+-   Para incluir estas opciones en nuestros fragmentos de código, podemos hacerlo usando la sintaxis `#|` seguida de la opción:
+:::
+
+. . .
+
+```{r}
+#| echo: fenced
+#| label: simple-multiplication
+#| eval: false
+
+2 * 2
+```
+
+## Opciones en las partes de Código {.smaller visibility="uncounted"}
+
+| Option           | Run code | Show code | Output | Plots | Messages | Warnings |
+|------------------|:--------:|:---------:|:------:|:-----:|:--------:|:--------:|
+| `eval: false`    |    X     |           |   X    |   X   |    X     |    X     |
+| `include: false` |          |     X     |   X    |   X   |    X     |    X     |
+| `echo: false`    |          |     X     |        |       |          |          |
+| `results: hide`  |          |           |   X    |       |          |          |
+| `fig-show: hide` |          |           |        |   X   |          |          |
+| `message: false` |          |           |        |       |    X     |          |
+| `warning: false` |          |           |        |       |          |    X     |
+
+## Opciones globales {.smaller}
+
+::: incremental
+-   Son agregadas en el encabezado del script de Quarto (en lenguaje YAML).
+
+-   Vamos a ir aprendiendo algunas de ellas conforme avancemos. Por el momento, probemos si TinyTeX funciona. Para eso, vamos a cambiar en el encabezado la línea `format: html` por `format: pdf`.
+
+-   De no haber tenido problemas con la instalación de TinyTex, deberás ver que en tu directorio de trabajo se ha generado un documento pdf.
+:::
+
+. . .
+
+![](images/pdf_quarto.png){fig-align="center"}
+
+# Opciones para figuras
+
+## Importando figuras {.smaller}
+
+::: incremental
+-   Podemos importar figuras de archivos externos (.png, .jpg, .pdf, etc).
+
+-   Para esto, empecemos creando una carpeta dentro de nuestro directorio de trabajo para almacenar nuestras imágenes (este paso es opcional, pero recomendado para una mejor organización de nuestros proyectos).
+
+-   Hecho esto, importamos la figura de interés con la sintaxis: `![Pie de figura](figura_nombre){opciones}`
+:::
+
+. . .
+
+```{r, eval=F, warning=F, echo = T}
+![Logo Biohack](images/icon1.png){fig-align="center" width=15%}
+```
+
+![Logo Biohack](images/icon1.png){fig-align="center" width="15%"}
+
+. . .
+
+-   Noten como en el código arriba, el nombre de nuestra figura está antecedido por `images/`.
+
+## Creando figuras en fragmentos de código {.smaller}
+
+::: incremental
+-   Quarto puede renderizar figuras producidas por fragmentos de código R dentro de un documento (como ya lo debiste notar al renderizar nuestro documento de ejemplo a formato pdf.
+
+-   Funciona sin mayores problemas para la mayoría de plots producidos tanto por gráficos de R base, `{ggplot2}` y otros paquetes. Aunque, con ciertas excepciones como aquellos plots producidos en `{plotly}` (que a veces requieren de una versión específica de `{knitr}`).
+
+-   Ahora, lo importante es saber cómo podemos determinar el tamaño de nuestras figuras. Para ello podemos hacer uso estas opciones en nuestros fragmentos de código:
+
+    1.  `fig-width`: controla el ancho de la figura.
+
+    2.  `fig-height`: controla el alto de la figura.
+
+    3.  `fig-asp`: controla la relación de aspecto (relación ancho por alto).
+
+    4.  `out-width` y `out-height`: controlan el ancho y largo de la figura (en porcentaje con respecto al ancho y alto de la página del documento).
+:::
+
+## Controlando el tamaño de una figura {.smaller}
+
+```{r}
+#| include: false
+
+library(tidyverse)
+
+smaller <- diamonds |> 
+  filter(carat <= 2.5)
+
+
+```
+
+
+::: columns
+::: {.column width="50%"}
+
+1.  Fijar `fig-width: 6` (6 pulgadas) y `fig-asp: 0.618` (la proporción áurea) para todas las figuras (en el encabezado).
+
+``` yaml
+---
+title: "Diamond sizes"
+date: 2022-09-12
+format: 
+  pdf:
+    fig-width: 6
+    fig-asp: 0.618
+---
+```
+:::
+
+::: {.column .fragment width="50%"}
+
+Luego, si deseáramos cambiar una figura individual, lo hacemos ajustando `fig-asp` por fragmentos individuales.
+```{r}
+#| echo: fenced
+#| fig-asp: 0.3
+
+smaller |> 
+  ggplot(aes(y = price, x = color)) + 
+  geom_bar(stat = "identity")
+```
+
+:::
+:::
+
+
+
+::: footer
+
+Recomendaciones tomadas del libro ["R for Data Science"](https://r4ds.hadley.nz/){target="blank_"}
+
+:::
+
+## Controlando el tamaño de una figura {.smaller}
+
+::: columns
+::: {.column width="50%"}
+
+2.    Controlar el tamaño con `out-width` y definirlo a un porcentaje del ancho de la hoja del documento. Sugiere `out-width: "70%"` y `fig-align: center`. Esto de manera individual por cada figura.
+
+:::
+
+::: {.column .fragment width="50%"}
+
+```{r}
+#| echo: fenced
+#| out-width: "70%"
+#| fig-align: center
+
+smaller |> 
+  ggplot(aes(y = price, x = color)) + 
+  geom_bar(stat = "identity")
+```
+
+
+:::
+:::
+
+
+
+::: footer
+
+Recomendaciones tomadas del libro ["R for Data Science"](https://r4ds.hadley.nz/){target="blank_"}
+
+:::
+
+## Otras opciones de figuras importantes {.smaller}
+
+-   Podemos añadir leyendas a nuestras figuras con la opción `fig-cap` y su ubicación con `fig-cap-location`
+
+. . .
+
+```{r}
+#| echo: fenced
+#| out-width: "30%"
+#| fig-align: center
+#| fig-cap: Figura de precios de diamantes de acuerdo a su color
+#| fig-cap-location: bottom
+
+smaller |> 
+  ggplot(aes(y = price, x = color)) + 
+  geom_bar(stat = "identity")
+```
+
+## Otras opciones de figuras importantes {.smaller visibility="uncounted"}
+
+::: incremental
+
+-   Cuando nos encontramos renderizando documentos de formato pdf, las figuras producidas son de alta calidad (al ser generadas como gráficos de vectores).
+
+-   Sin embargo, si la figura es muy compleja (por ejemplo, un gráfico de dispersión con cientos de miles de puntos) esto provocará problemas:
+
+    -   Archivos muy pesados
+    
+    -   Fallos de memoria, sobre todo en computadores de bajo RAM
+    
+    -   Mayor probabilidad de que nuestros archivos pdf se corrompan con el tiempo.
+    
+-   Para evitar esto, podemos usar la opción `fig-format: "png"`. El formato de gráficos png es bastante ligero y de buena calidad.
+
+:::
+
+# Creando tablas en Quarto
+
+## ¿Cómo creamos tablas en Quarto? {.smaller}
+
+::: incremental
+
+-   Se pueden crear manualmente en el editor Visual para documentos de Quarto de RStudio.
+
+-   También a partir de fragmentos de código.
+
+-   Por default, Quarto imprime tablas de datos tal cual como aparecen en la consola de R.
+
+:::
+
+. . .
+
+```{r}
+#| echo: fenced
+mtcars[1:5, ]
+```
+
+## Creando tablas con `knitr` en Quarto {.smaller}
+
+
+-   Otra opción, es la de usar `knitr` para darle formato a nuestras tablas
+
+. . .
+
+```{r}
+#| echo: fenced
+#| tbl-cap: Una tabla con `knitr`
+ 
+knitr::kable(mtcars[1:5, ])
+```
+
+## Creando tablas con `flextable` en Quarto {.smaller}
+
+```{r}
+#| echo: fenced
+#| tbl-cap: Una tabla con `flextable`
+library(flextable)
+
+copy_mtcars <- mtcars
+copy_mtcars$brand <- row.names(mtcars)
+copy_mtcars <- copy_mtcars[ , c(12,1:11)]
+
+ft <- flextable(copy_mtcars[1:5, ])
+ft <- autofit(ft)
+ft
+```
+
+## Presentationes en Quarto
+
+::: incremental
+
+-   Hasta el momento hemos visto los fundamentos básicos de creación de documentos en `pdf`, `html` y `docx` con Quarto.
+
+-   En lo que se trata a presentaciones, Quarto nos ofrece dos opciones:
+
+-   **Reveal.js** (`revealjs`): Un formato de presentación en HTML (similar a un página web),
+
+-   **PowerPoint** (`pptx`): el conocido formato de Microsoft Office (o Libre Office).
+
+-   Los principios que hemos visto antes también se aplican para estos dos formatos.
+
+-   Vamos a explorar un poco su uso mediante el siguiente ejemplo [disponible aquí](https://raw.githubusercontent.com/mmorenozam/ejemplo_presentacion/main/ejemplo_presentacion.qmd){target="_blank"}
+
+:::
+
+
+## Un poco más de Quarto
+
+Ahora vamos a ver más opciones dentro de los documentos de Quarto a través un archivo de Quarto que he creado y que está [disponible aquí](https://raw.githubusercontent.com/mmorenozam/progR-website/main/ejemplo_reporte.qmd){target="blank_"}.
+
+## Notas finales de este módulo {.smaller}
+
+::: {style="text-align: center;"}
+***There is no such thing as a free lunch***
+:::
+
+::: {style="text-align: right;"}
+*Milton Friedman*
+:::
+
+::: incremental
+
+-   Quarto nos ofrece funcionalidades extensas, cuyo uso básico es relativamente sencillo.
+
+-   Sin embargo, al ser un editor de texto nuevo (relativamente hablando, ya que es una actualización de Rmarkdown) no posee documentación extensa amigablemente compilada como la hay para librerías de R por ejemplo.
+
+-   Las razones de esto son diversas, entre ellas:
+
+    -   Quarto no es exclusivo de R (tiene compatibilidad con Python, Julia...). Es decir, está diseñado para su uso en diversas interfaces y combina en su funcionamiento varios lenguajes de programación.
+    
+    -   Por tanto, para explotar sus capacidades en una mayor extensión, conocimientos básicos al menos de YML, $\LaTeX{}$, markdown e incluso Java y Pandoc serían óptimos.
+    
+    
+-   Para el usuario, esto se pone a prueba cuando se desea poner en documentos de Quarto mayor énfasis a cambios estéticos en el formato.
+:::
+
+## Notas finales de este módulo {visibility="uncounted"}
+
+::: incremental
+
+-   Pero espero que esto no sea desalentador para ustedes.
+
+-   Quarto apenas tiene 2 años desde su lanzamiento, y gracias a la creciente comunidad de usuarios, seguro habrán disponibles más y más tutoriales, templates y ejemplos con el pasar del tiempo.
+
+-   Al momento, la mejor fuente de información y ayuda se encuentra precisamente en su [página oficial](https://quarto.org/){target="_blank"}.
+
+-   Adicionalmente, más ayuda está disponible en la sección de "problemas" [(*Issues*)](https://github.com/quarto-dev/quarto-cli/issues){target="_blank"} del repositorio de Github de Quarto.
+
+:::
+
+## Notas finales de este módulo {.smaller visibility="uncounted"}
+
+::: incremental
+
+-   **Limitaciones de Quarto para el usuario nuevo** (desde mi perspectiva):
+
+    -   Libertad de dar formato: dependiendo de la complejidad del documento a crear, mientras entramos en más detalle del formato (alineaciones, indexación de figuras, etc) se hace notar la necesidad de tener más conocimiento de otros lenguajes de programación.
+    
+    -   Al estar basado mayoritariamente en Pandoc y markdown, el tipo de documento por excelencia de Quarto es HTML. Esto puede ser una limitación al querer producir documentos de otros tipos.
+    
+    -   En lo que refiere a creación de páginas web, la combinación de Rmarkdown y Hugo mediante [`{blogdown}`](https://bookdown.org/yihui/blogdown/hugo.html){target="_blank"} permite crear portafolios vistosos y atractivos (sin embargo su implementación era bastante compleja). Quarto no posee esta interconectividad, y para la creación de portafolios o cualquier otra página web, sus templates son visualmente limitados en comparación a Hugo.
+
+:::
+
+
+## {}
+
+::: columns
+::: {.column width="60%"}
+::: {.title data-id="title"}
+Fin del módulo 8
+:::
+
+::: callout-tip
+## Créditos de fotos
+
+Foto portada por <a href="https://unsplash.com/@florianklauer?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Florian Klauer</a> en <a href="https://unsplash.com/photos/black-fayorit-typewriter-with-printer-paper-mk7D-4UCfmg?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+  
+  
+Foto final por <a href="https://unsplash.com/@kipfarl?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Julian Rösner</a> en <a href="https://unsplash.com/photos/a-long-dock-with-benches-in-the-water-2knUR_Kyq24?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+  
+  
+
+Resto de fotos: Varias fuentes
+:::
+:::
+
+::: {.column width="37.5%"}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+![](images/icon1_nb.png){style="margin-left:120px"}
+:::
+:::
+
+![](images/julian-rosner-2knUR_Kyq24-unsplash.jpg){.image-right}
